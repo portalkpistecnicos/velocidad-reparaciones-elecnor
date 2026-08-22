@@ -334,8 +334,8 @@
       </div>
     </div>
     <div class="masthead-meta">
-      <div><strong>Período</strong> Periodo no identificado</div>
-      <div><strong>Alcance</strong> </div>
+      <div><strong>Período</strong> Agosto 2026</div>
+      <div><strong>Alcance</strong> Viña del Mar &middot; Valparaíso &middot; San Antonio</div>
       <div><strong>Meta</strong> 85,0% de cumplimiento</div>
     </div>
   </div>
@@ -343,29 +343,29 @@
   <div class="kpis">
     <div class="kpi bad">
       <p class="kpi-label">Cumplimiento global</p>
-      <p class="kpi-value">0,0%</p>
-      <p class="kpi-sub">0 de 0 reparaciones</p>
+      <p class="kpi-value">47,8%</p>
+      <p class="kpi-sub">643 de 1.344 reparaciones</p>
     </div>
     <div class="kpi neutral">
       <p class="kpi-label">Meta corporativa</p>
       <p class="kpi-value">85,0%</p>
-      <p class="kpi-sub">única meta, 0 agencias</p>
+      <p class="kpi-sub">única meta, 3 agencias</p>
     </div>
     <div class="kpi bad">
       <p class="kpi-label">Brecha</p>
-      <p class="kpi-value">&minus;85,0 pts</p>
-      <p class="kpi-sub">&asymp; 0 casos adicionales</p>
+      <p class="kpi-value">&minus;37,2 pts</p>
+      <p class="kpi-sub">&asymp; 500 casos adicionales</p>
     </div>
     <div class="kpi neutral">
       <p class="kpi-label">Universo analizado</p>
-      <p class="kpi-value">0</p>
-      <p class="kpi-sub">de 4 registros del período</p>
+      <p class="kpi-value">1.344</p>
+      <p class="kpi-sub">de 1.346 registros del período</p>
     </div>
   </div>
 
   <section>
     <div class="sec-head"><span class="sec-num">01</span><h2>Metodología y consideraciones</h2></div>
-    <p class="lede">El indicador se recalculó a partir del archivo base <code style="font-family:'IBM Plex Mono',monospace;font-size:13px;">historico_p31_velocidad_reparaciones.csv</code> aplicando estrictamente los criterios oficiales del reporte P31.</p>
+    <p class="lede">El indicador se recalculó a partir del archivo base <code style="font-family:'IBM Plex Mono',monospace;font-size:13px;">p31_velocidad_reparaciones_2026-08.csv</code> aplicando estrictamente los criterios oficiales del reporte P31.</p>
     <div class="callout">
       <ul>
         <li><strong>Fórmula:</strong> cierres con <code>q_dias_efectivos &lt; 2</code> (es decir, &le; 1 día efectivo) &divide; total de reparaciones del mes.</li>
@@ -374,14 +374,38 @@
         <li><strong>Fallas masivas:</strong> se excluyen los registros con <code>es_falla_masiva = 1</code>.</li>
       </ul>
     </div>
-    <p class="note">Sobre los 4 registros brutos del archivo se excluyeron 4 casos fuera de alcance (ámbito distinto de atención a clientes, falla masiva o acceso no FO), dejando un universo válido de 0 reparaciones.</p>
+    <p class="note">Sobre los 1.346 registros brutos del archivo se excluyeron 2 casos fuera de alcance (ámbito distinto de atención a clientes, falla masiva o acceso no FO), dejando un universo válido de 1.344 reparaciones.</p>
   </section>
 
   <section>
     <div class="sec-head"><span class="sec-num">02</span><h2>Resultado por agencia vs. meta</h2></div>
-    <p class="lede">Las 0 agencias alcanzan la meta de 85,0%.</p>
+    <p class="lede">Ninguna de las 3 agencias alcanza el 85,0% exigido. Viña del Mar concentra el 55% del volumen total y el desempeño más bajo (40,1%).</p>
 
     <div class="chart-card">
+      <div class="bar-row">
+        <div class="bar-label">Viña del Mar<small>738 reparaciones</small></div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:40.1%; background:var(--bad);"></div>
+          <div class="bar-goal" style="left:85.0%;"></div>
+        </div>
+        <div class="bar-val" style="color:var(--bad);">40,1%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Valparaíso<small>475 reparaciones</small></div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:55.6%; background:var(--bad);"></div>
+          <div class="bar-goal" style="left:85.0%;"></div>
+        </div>
+        <div class="bar-val" style="color:var(--bad);">55,6%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">San Antonio<small>131 reparaciones</small></div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:63.4%; background:var(--bad);"></div>
+          <div class="bar-goal" style="left:85.0%;"></div>
+        </div>
+        <div class="bar-val" style="color:var(--bad);">63,4%</div>
+      </div>
     </div>
 
     <div class="tbl-wrap">
@@ -390,7 +414,10 @@
           <th>Agencia</th><th class="num">Total</th><th class="num">Cumple</th><th class="num">% cumplimiento</th><th class="num">Brecha (pts)</th><th class="num">Casos para meta</th>
         </tr></thead>
         <tbody>
-          <tr class="total"><td class="name">Total</td><td class="num">0</td><td class="num">0</td><td class="num">0,0%</td><td class="num">&minus;85,0</td><td class="num">0</td></tr>
+          <tr><td class="name">Viña del Mar</td><td class="num">738</td><td class="num">296</td><td class="num"><span class="pill bad"><span class="dot"></span>40,1%</span></td><td class="num">&minus;44,9</td><td class="num">332</td></tr>
+          <tr><td class="name">Valparaíso</td><td class="num">475</td><td class="num">264</td><td class="num"><span class="pill bad"><span class="dot"></span>55,6%</span></td><td class="num">&minus;29,4</td><td class="num">140</td></tr>
+          <tr><td class="name">San Antonio</td><td class="num">131</td><td class="num">83</td><td class="num"><span class="pill bad"><span class="dot"></span>63,4%</span></td><td class="num">&minus;21,6</td><td class="num">29</td></tr>
+          <tr class="total"><td class="name">Total</td><td class="num">1.344</td><td class="num">643</td><td class="num">47,8%</td><td class="num">&minus;37,2</td><td class="num">500</td></tr>
         </tbody>
       </table>
     </div>
@@ -398,26 +425,92 @@
 
   <section>
     <div class="sec-head"><span class="sec-num">03</span><h2>Causas del incumplimiento</h2></div>
-    <p class="lede">Sobre los 0 casos que no cumplen el estándar de &le; 1 día efectivo, así se distribuye la causa raíz según el área responsable del quiebre:</p>
+    <p class="lede">Sobre los 701 casos que no cumplen el estándar de &le; 1 día efectivo, así se distribuye la causa raíz según el área responsable del quiebre:</p>
 
     <div class="chart-card">
       <div class="causes">
+        <div class="cause-row">
+          <span>actividad completada</span>
+          <div class="cause-track"><div class="cause-fill" style="width:61.6%;"></div></div>
+          <span class="cause-pct">61,6%</span>
+        </div>
+        <div class="cause-row">
+          <span>CASA CERRADA</span>
+          <div class="cause-track"><div class="cause-fill" style="width:18.8%;"></div></div>
+          <span class="cause-pct">18,8%</span>
+        </div>
+        <div class="cause-row">
+          <span>actividad pendiente</span>
+          <div class="cause-track"><div class="cause-fill" style="width:16.8%;"></div></div>
+          <span class="cause-pct">16,8%</span>
+        </div>
+        <div class="cause-row">
+          <span>COMERCIAL-CLIENTE</span>
+          <div class="cause-track"><div class="cause-fill" style="width:1.0%;"></div></div>
+          <span class="cause-pct">1,0%</span>
+        </div>
+        <div class="cause-row">
+          <span>DERIVACION PE</span>
+          <div class="cause-track"><div class="cause-fill" style="width:0.9%;"></div></div>
+          <span class="cause-pct">0,9%</span>
+        </div>
+        <div class="cause-row">
+          <span>Otras causas menores</span>
+          <div class="cause-track"><div class="cause-fill" style="width:0.9%;"></div></div>
+          <span class="cause-pct">0,9%</span>
+        </div>
       </div>
     </div>
-    <p></p>
+    <p>El 61,6% de los incumplimientos corresponde a &ldquo;actividad completada&rdquo;, seguido por &ldquo;CASA CERRADA&rdquo; con 18,8%.</p>
   </section>
 
   <section>
     <div class="sec-head"><span class="sec-num">04</span><h2>Detalle por bucket</h2></div>
-    <p class="lede">Todos los buckets alcanzan la meta de 85,0%.</p>
+    <p class="lede">Ningún bucket alcanza individualmente el 85,0%. En Viña del Mar el rezago es transversal a los 5 buckets, señal de una causa sistémica de agencia más que de un equipo puntual.</p>
 
     <div class="crew-grid">
+      <div>
+        <h3>Viña del Mar</h3>
+        <div class="tbl-wrap"><table>
+          <thead><tr><th>Bucket</th><th class="num">Total</th><th class="num">%</th><th class="num">Falta</th></tr></thead>
+          <tbody>
+            <tr><td class="name">VINA DEL MAR 3_MULT</td><td class="num">203</td><td class="num"><span class="pill bad"><span class="dot"></span>43,3%</span></td><td class="num">85</td></tr>
+            <tr><td class="name">VINA DEL MAR 4_MULT</td><td class="num">184</td><td class="num"><span class="pill bad"><span class="dot"></span>39,1%</span></td><td class="num">85</td></tr>
+            <tr><td class="name">VINA DEL MAR 2_MULT</td><td class="num">169</td><td class="num"><span class="pill bad"><span class="dot"></span>32,5%</span></td><td class="num">89</td></tr>
+            <tr><td class="name">VINA DEL MAR 1_MULT</td><td class="num">104</td><td class="num"><span class="pill bad"><span class="dot"></span>52,9%</span></td><td class="num">34</td></tr>
+            <tr><td class="name">VINA DEL MAR 5_MULT</td><td class="num">78</td><td class="num"><span class="pill bad"><span class="dot"></span>33,3%</span></td><td class="num">41</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+      <div>
+        <h3>Valparaíso</h3>
+        <div class="tbl-wrap"><table>
+          <thead><tr><th>Bucket</th><th class="num">Total</th><th class="num">%</th><th class="num">Falta</th></tr></thead>
+          <tbody>
+            <tr><td class="name">VALPARAISO 1_MULT</td><td class="num">182</td><td class="num"><span class="pill bad"><span class="dot"></span>47,3%</span></td><td class="num">69</td></tr>
+            <tr><td class="name">VALPARAISO 4_MULT</td><td class="num">124</td><td class="num"><span class="pill bad"><span class="dot"></span>58,1%</span></td><td class="num">34</td></tr>
+            <tr><td class="name">VALPARAISO 3_MULT</td><td class="num">117</td><td class="num"><span class="pill bad"><span class="dot"></span>61,5%</span></td><td class="num">28</td></tr>
+            <tr><td class="name">VALPARAISO 2_MULT</td><td class="num">52</td><td class="num"><span class="pill warn"><span class="dot"></span>65,4%</span></td><td class="num">11</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+      <div>
+        <h3>San Antonio</h3>
+        <div class="tbl-wrap"><table>
+          <thead><tr><th>Bucket</th><th class="num">Total</th><th class="num">%</th><th class="num">Falta</th></tr></thead>
+          <tbody>
+            <tr><td class="name">SAN ANTONIO 1_MULT</td><td class="num">82</td><td class="num"><span class="pill bad"><span class="dot"></span>63,4%</span></td><td class="num">18</td></tr>
+            <tr><td class="name">SAN ANTONIO 3_MULT</td><td class="num">33</td><td class="num"><span class="pill warn"><span class="dot"></span>69,7%</span></td><td class="num">6</td></tr>
+            <tr><td class="name">SAN ANTONIO 2_MULT</td><td class="num">16</td><td class="num"><span class="pill bad"><span class="dot"></span>50,0%</span></td><td class="num">6</td></tr>
+          </tbody>
+        </table></div>
+      </div>
     </div>
   </section>
 
   <section>
     <div class="sec-head"><span class="sec-num">05</span><h2>Tendencia diaria</h2></div>
-    <p class="lede"></p>
+    <p class="lede">El cumplimiento diario osciló entre 30,0% y 80,0% a lo largo del período, sin alcanzar la meta de 85,0% en ningún día con volumen representativo.</p>
 
     <div class="trend-card">
       <svg class="trend-svg" viewBox="0 0 860 260" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Cumplimiento diario frente a la meta">
@@ -436,26 +529,63 @@
         <line x1="40" y1="51.2" x2="840" y2="51.2" stroke="var(--brand-orange)" stroke-width="1.5" stroke-dasharray="4 4"/>
         <text x="844" y="55.2" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--brand-orange)">meta 85,0%</text>
 
-        <polyline fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" points=""/>
+        <polyline fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" points="60,161.4 140.8,162.3 181.3,136.3 221.7,155 262.1,130 302.5,141.1 342.9,146.9 423.8,115.1 464.2,122.8 504.6,134.6 545.1,165.6 585.5,137.5 625.9,61.6 706.7,96.5 747.2,82.6 787.6,132.5 828,115.1"/>
         <g fill="var(--accent)">
+          <circle cx="60" cy="161.4" r="3.2"/>
+          <circle cx="140.8" cy="162.3" r="3.2"/>
+          <circle cx="181.3" cy="136.3" r="3.2"/>
+          <circle cx="221.7" cy="155" r="3.2"/>
+          <circle cx="262.1" cy="130" r="3.2"/>
+          <circle cx="302.5" cy="141.1" r="3.2"/>
+          <circle cx="342.9" cy="146.9" r="3.2"/>
+          <circle cx="423.8" cy="115.1" r="3.2"/>
+          <circle cx="464.2" cy="122.8" r="3.2"/>
+          <circle cx="504.6" cy="134.6" r="3.2"/>
+          <circle cx="545.1" cy="165.6" r="3.2"/>
+          <circle cx="585.5" cy="137.5" r="3.2"/>
+          <circle cx="625.9" cy="61.6" r="3.2"/>
+          <circle cx="706.7" cy="96.5" r="3.2"/>
+          <circle cx="747.2" cy="82.6" r="3.2"/>
+          <circle cx="787.6" cy="132.5" r="3.2"/>
+          <circle cx="828" cy="115.1" r="3.2"/>
         </g>
         <g font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--ink-faint)">
+          <text x="60" y="248" text-anchor="middle">1</text>
+          <text x="140.8" y="248" text-anchor="middle">3</text>
+          <text x="181.3" y="248" text-anchor="middle">4</text>
+          <text x="221.7" y="248" text-anchor="middle">5</text>
+          <text x="262.1" y="248" text-anchor="middle">6</text>
+          <text x="302.5" y="248" text-anchor="middle">7</text>
+          <text x="342.9" y="248" text-anchor="middle">8</text>
+          <text x="423.8" y="248" text-anchor="middle">10</text>
+          <text x="464.2" y="248" text-anchor="middle">11</text>
+          <text x="504.6" y="248" text-anchor="middle">12</text>
+          <text x="545.1" y="248" text-anchor="middle">13</text>
+          <text x="585.5" y="248" text-anchor="middle">14</text>
+          <text x="625.9" y="248" text-anchor="middle">15</text>
+          <text x="706.7" y="248" text-anchor="middle">17</text>
+          <text x="747.2" y="248" text-anchor="middle">18</text>
+          <text x="787.6" y="248" text-anchor="middle">19</text>
+          <text x="828" y="248" text-anchor="middle">20</text>
         </g>
       </svg>
     </div>
-    <p class="note"></p>
+    <p class="note">Se omiten del gráfico los días 2, 9, 16 por bajo volumen (menos de 20 casos), que distorsionan el porcentaje diario.</p>
   </section>
 
   <section>
     <div class="sec-head"><span class="sec-num">06</span><h2>Conclusiones y recomendaciones</h2></div>
     <ol class="reco">
-      <li><p><strong>Brecha de 85,0 puntos</strong> respecto a la meta de 85,0%: la meta ya se encuentra alcanzada a nivel consolidado.</p></li>
+      <li><p><strong>Brecha de 37,2 puntos</strong> respecto a la meta de 85,0%: se requieren cerca de 500 reparaciones adicionales cumpliendo el estándar de &le; 1 día efectivo para alcanzarla con el volumen actual.</p></li>
+      <li><p><strong>Viña del Mar es la prioridad de intervención:</strong> concentra el 55% del volumen y el desempeño más bajo (40,1%), con 332 casos adicionales necesarios para alcanzar la meta.</p></li>
+      <li><p><strong>61,6% del incumplimiento</strong> está asociado a &ldquo;actividad completada&rdquo;: es el primer foco de mejora operativa.</p></li>
+      <li><p><strong>San Antonio, con la brecha menor</strong> (29 casos para la meta), es el objetivo más alcanzable en el corto plazo y puede servir de referencia de buenas prácticas para las otras agencias.</p></li>
     </ol>
   </section>
 
   <footer>
-    <span>Fuente: historico_p31_velocidad_reparaciones.csv &middot; Elecnor &middot; universo 0 de 4 registros</span>
-    <span>Informe generado el 21-08-2026 23:35</span>
+    <span>Fuente: p31_velocidad_reparaciones_2026-08.csv &middot; Elecnor &middot; universo 1.344 de 1.346 registros</span>
+    <span>Informe generado el 21-08-2026 23:36</span>
   </footer>
 
 </div>
