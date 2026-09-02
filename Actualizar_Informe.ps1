@@ -687,7 +687,7 @@ $template = @'
       <img class="brand-logo" src="data:image/png;base64,__LOGO_B64__" alt="Elecnor Chile">
       <div class="masthead-divider"></div>
       <div>
-        <p class="eyebrow">Informe de gestión operativa &middot; P31 &middot; Actualización automática</p>
+        <p class="eyebrow">Informe de gestión operativa &middot; Actualización automática</p>
         <h1 class="title">Velocidad de Reparaciones</h1>
         <div class="brand-accent"></div>
       </div>
@@ -795,6 +795,7 @@ __RECO_ITEMS__    </ol>
   <footer>
     <span>Fuente: __NOMBRE_ARCHIVO__ &middot; Elecnor &middot; universo __TOTAL_GLOBAL__ de __TOTAL_RAW__ registros</span>
     <span>Informe generado el __FECHA_GENERACION__</span>
+    <span>Diseñado por Xas</span>
   </footer>
 
 </div>
