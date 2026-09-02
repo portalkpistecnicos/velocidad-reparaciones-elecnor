@@ -36,9 +36,17 @@ function StatusVar([double]$pct) {
     else { return 'bad' }
 }
 
-# ---------------- 1. Ubicar CSV mas reciente ----------------
-$csv = Get-ChildItem -Path $BbddFolder -Filter "p31_velocidad_reparaciones_*.csv" -File -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-if (-not $csv) { throw "No se encontro ningun archivo .csv en $BbddFolder" }
+# ---------------- 1. Ubicar CSV mas reciente con datos ----------------
+# Al iniciar un mes nuevo puede existir un archivo recien creado con solo el encabezado
+# (0 filas de datos) que es "mas reciente" por fecha pero inutil como fuente: se omite.
+$csvCandidatos = Get-ChildItem -Path $BbddFolder -Filter "p31_velocidad_reparaciones_*.csv" -File -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending
+$csv = $null
+foreach ($cand in $csvCandidatos) {
+    $lineas = (Get-Content -Path $cand.FullName -ErrorAction SilentlyContinue | Measure-Object -Line).Lines
+    if ($lineas -gt 1) { $csv = $cand; break }
+    Write-Host "Se omite $($cand.Name): no tiene filas de datos (solo encabezado)." -ForegroundColor Yellow
+}
+if (-not $csv) { throw "No se encontro ningun archivo .csv con datos en $BbddFolder" }
 Write-Host "Fuente: $($csv.Name)  (modificado $($csv.LastWriteTime))"
 
 $raw = Import-Csv -Path $csv.FullName -Delimiter ';' -Encoding UTF8
