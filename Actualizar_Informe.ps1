@@ -5,6 +5,7 @@ $ErrorActionPreference = 'Stop'
 
 # ---------------- Configuracion ----------------
 $BbddFolder = "G:\Mi unidad\Respaldo\Documents\KPI's\Velocidad Reparaciones\BBDD"
+$HistoricoCsv = Join-Path $BbddFolder "historico_p31_velocidad_reparaciones.csv"
 $RepoPath   = "C:\Users\xarancibia\Documents\GitHub\velocidad-reparaciones-elecnor"
 $HtmlOutput = Join-Path $RepoPath "index.html"
 $LogoPath   = "G:\Mi unidad\Respaldo\Documents\Elecnor\logo elecnor.png"
@@ -36,7 +37,7 @@ function StatusVar([double]$pct) {
 }
 
 # ---------------- 1. Ubicar CSV mas reciente ----------------
-$csv = Get-ChildItem -Path $BbddFolder -Filter "*.csv" -File -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+$csv = Get-ChildItem -Path $BbddFolder -Filter "p31_velocidad_reparaciones_*.csv" -File -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1
 if (-not $csv) { throw "No se encontro ningun archivo .csv en $BbddFolder" }
 Write-Host "Fuente: $($csv.Name)  (modificado $($csv.LastWriteTime))"
 
@@ -238,19 +239,26 @@ if ($peorAgencia) {
 
 $bucketsGrid = ""
 foreach ($info in $agenciasInfo) {
+    $slug = ($info.Key -replace ' ', '').ToLower()
+    $opciones = ""
     $filasBucket = ""
+    $i = 0
     foreach ($b in $info.Buckets) {
         $sv = StatusVar $b.Pct
-        $filasBucket += "            <tr><td class=`"name`">$($b.Nombre)</td><td class=`"num`">$(FmtInt $b.Total)</td><td class=`"num`"><span class=`"pill $sv`"><span class=`"dot`"></span>$(Fmt1 $b.Pct)%</span></td><td class=`"num`">$(FmtInt $b.Falta)</td></tr>`n"
+        $opciones += "            <option value=`"$i`">$($b.Nombre)</option>`n"
+        $filasBucket += "            <div class=`"bucket-row`" id=`"$slug-row-$i`" data-name=`"$($b.Nombre)`" data-total=`"$(FmtInt $b.Total)`" data-pct=`"$(Fmt1 $b.Pct)%`" data-falta=`"$(FmtInt $b.Falta)`" data-status=`"$sv`"><span class=`"br-name`">$($b.Nombre)</span><span class=`"pill $sv`"><span class=`"dot`"></span>$(Fmt1 $b.Pct)%</span><span class=`"br-falta`">$(FmtInt $b.Falta)</span></div>`n"
+        $i++
     }
     $bucketsGrid += @"
-      <div>
+      <div class="bucket-card" data-agencia="$slug">
         <h3>$($info.Nombre)</h3>
-        <div class="tbl-wrap"><table>
-          <thead><tr><th>Bucket</th><th class="num">Total</th><th class="num">%</th><th class="num">Falta</th></tr></thead>
-          <tbody>
-$filasBucket          </tbody>
-        </table></div>
+        <p class="bucket-card-sub">$($info.Buckets.Count) buckets &middot; $(FmtInt $info.Total) reparaciones</p>
+        <select class="bucket-select" id="$slug-select" onchange="showBucket('$slug', this.value)">
+          <option value="" selected>&mdash; Ver todos los buckets &mdash;</option>
+$opciones        </select>
+        <div class="bucket-result" id="$slug-result">Selecciona un bucket para ver su detalle.</div>
+        <div class="bucket-rows" id="$slug-rows">
+$filasBucket        </div>
       </div>
 
 "@
@@ -600,6 +608,41 @@ $template = @'
   .crew-grid{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
   @media (max-width:820px){ .crew-grid{ grid-template-columns:1fr; } .kpis{ grid-template-columns:1fr 1fr; } }
 
+  .bucket-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:3px;
+    padding:18px 20px; box-shadow:var(--shadow);
+  }
+  .bucket-card-sub{ font-size:12px; color:var(--ink-faint); margin:-6px 0 14px; }
+  .bucket-select{
+    width:100%; padding:10px 12px; margin-bottom:12px;
+    border:1px solid var(--line); border-radius:4px;
+    background:var(--surface-2); color:var(--ink);
+    font-family:"IBM Plex Sans", sans-serif; font-size:14px;
+  }
+  .bucket-result{
+    font-size:13px; color:var(--ink-faint); padding:10px 12px; margin-bottom:14px;
+    border-radius:3px; background:var(--surface-2); min-height:20px;
+    display:flex; flex-direction:column; gap:3px;
+  }
+  .bucket-result .br-name-big{ font-weight:700; color:var(--ink); font-size:14px; }
+  .bucket-result .br-stat{ font-family:"IBM Plex Mono", monospace; font-size:12.5px; color:var(--ink-soft); }
+  .bucket-result.status-good{ background:var(--good-soft); }
+  .bucket-result.status-good .br-name-big{ color:var(--good); }
+  .bucket-result.status-warn{ background:var(--warn-soft); }
+  .bucket-result.status-warn .br-name-big{ color:var(--warn); }
+  .bucket-result.status-bad{ background:var(--bad-soft); }
+  .bucket-result.status-bad .br-name-big{ color:var(--bad); }
+  .bucket-rows{ display:flex; flex-direction:column; }
+  .bucket-row{
+    display:flex; align-items:center; gap:10px;
+    padding:8px 4px; border-top:1px solid var(--line); font-size:13px;
+  }
+  .bucket-row:first-child{ border-top:none; }
+  .bucket-row.highlighted{ background:var(--accent-soft); border-radius:3px; margin:0 -6px; padding-left:10px; padding-right:10px; }
+  .br-name{ flex:1; color:var(--ink-soft); }
+  .br-falta{ font-family:"IBM Plex Mono", monospace; font-weight:600; color:var(--ink); width:30px; text-align:right; flex:none; }
+  @media (max-width:600px){ .bucket-select{ font-size:16px; } }
+
   ol.reco{ margin:0; padding-left:0; list-style:none; counter-reset:reco; }
   ol.reco li{
     counter-increment:reco;
@@ -747,6 +790,29 @@ __RECO_ITEMS__    </ol>
   </footer>
 
 </div>
+<script>
+  function showBucket(ag, idx) {
+    var card = document.querySelector('.bucket-card[data-agencia="' + ag + '"]');
+    if (!card) return;
+    card.querySelectorAll('.bucket-row').forEach(function (r) { r.classList.remove('highlighted'); });
+    var result = document.getElementById(ag + '-result');
+    if (idx === '') {
+      result.className = 'bucket-result';
+      result.innerHTML = 'Selecciona un bucket para ver su detalle.';
+      return;
+    }
+    var row = document.getElementById(ag + '-row-' + idx);
+    if (!row) return;
+    row.classList.add('highlighted');
+    row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    var status = row.getAttribute('data-status');
+    result.className = 'bucket-result status-' + status;
+    result.innerHTML =
+      '<span class="br-name-big">' + row.getAttribute('data-name') + '</span>' +
+      '<span class="br-stat">' + row.getAttribute('data-total') + ' reparaciones &middot; ' + row.getAttribute('data-pct') + ' cumplimiento</span>' +
+      '<span class="br-stat">' + row.getAttribute('data-falta') + ' casos para alcanzar la meta</span>';
+  }
+</script>
 </body>
 </html>
 '@
@@ -787,20 +853,63 @@ $html = $html.Replace('__FECHA_GENERACION__', $fechaGeneracion)
 Write-Host "HTML actualizado: $HtmlOutput" -ForegroundColor Green
 Write-Host "Cumplimiento global: $(Fmt1 $pctGlobal)% (meta $metaTxt%)"
 
-# ---------------- 8. Commit y push ----------------
+# ---------------- 8. Historico (log diario en BBDD) ----------------
+$hoy = Get-Date -Format "dd-MM-yyyy"
+$estadoGlobal = if ($pctGlobal -ge $Meta) { 'Cumple' } else { 'No cumple' }
+
+$filasHistoricoNuevas = @()
+foreach ($info in $agenciasInfo) {
+    $filasHistoricoNuevas += [PSCustomObject]@{
+        FechaActualizacion = $hoy
+        ArchivoFuente      = $csv.Name
+        Agencia            = $info.Nombre
+        TotalReparaciones  = $info.Total
+        Cumple             = $info.Cumple
+        PctCumplimiento    = (Fmt1 $info.Pct)
+        MetaPct            = $metaTxt
+        BrechaPts          = (Fmt1 $info.Brecha)
+        CasosParaMeta      = $info.Falta
+        Estado             = if ($info.Pct -ge $Meta) { 'Cumple' } else { 'No cumple' }
+    }
+}
+$filasHistoricoNuevas += [PSCustomObject]@{
+    FechaActualizacion = $hoy
+    ArchivoFuente      = $csv.Name
+    Agencia            = 'Total V Region'
+    TotalReparaciones  = $totalGlobal
+    Cumple             = $cumpleGlobal
+    PctCumplimiento    = (Fmt1 $pctGlobal)
+    MetaPct            = $metaTxt
+    BrechaPts          = (Fmt1 $brechaGlobal)
+    CasosParaMeta      = $faltanGlobal
+    Estado             = $estadoGlobal
+}
+
+if (-not (Test-Path $BbddFolder)) { New-Item -ItemType Directory -Force -Path $BbddFolder | Out-Null }
+
+if (Test-Path $HistoricoCsv) {
+    $histExistente = @(Import-Csv -Path $HistoricoCsv -Encoding UTF8 -Delimiter ',' | Where-Object { $_.FechaActualizacion -ne $hoy })
+} else {
+    $histExistente = @()
+}
+$histFinal = @($histExistente) + @($filasHistoricoNuevas)
+$histFinal | Export-Csv -Path $HistoricoCsv -Encoding UTF8 -NoTypeInformation -Delimiter ','
+$fechasUnicas = (@($histFinal.FechaActualizacion | Select-Object -Unique)).Count
+Write-Host "Historico actualizado: $HistoricoCsv  ($($histFinal.Count) registros, $fechasUnicas fechas)" -ForegroundColor Green
+
+# ---------------- 9. Commit y push ----------------
 Push-Location $RepoPath
 $prevEAP = $ErrorActionPreference
 $ErrorActionPreference = 'Continue'
 try {
-    git add index.html 2>&1 | Out-Null
+    git add index.html Actualizar_Informe.ps1 Actualizar_Informe.bat 2>&1 | Out-Null
     $changes = git status --porcelain
     if ([string]::IsNullOrWhiteSpace($changes)) {
         Write-Host "Sin cambios que publicar en GitHub." -ForegroundColor Yellow
     } else {
-        $hoy = Get-Date -Format "dd-MM-yyyy"
         git commit -m "Actualizacion automatica $hoy - fuente $($csv.Name)" 2>&1 | Out-String | Write-Host
         git push origin main 2>&1 | Out-String | Write-Host
-        Write-Host "Publicado: https://xarancibias.github.io/velocidad-reparaciones-elecnor/" -ForegroundColor Green
+        Write-Host "Publicado: https://portalkpistecnicos.github.io/velocidad-reparaciones-elecnor/" -ForegroundColor Green
     }
 } finally {
     $ErrorActionPreference = $prevEAP
