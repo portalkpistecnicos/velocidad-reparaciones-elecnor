@@ -693,6 +693,7 @@ $template = @'
       </div>
     </div>
     <div class="masthead-meta">
+      <div><strong>Actualizado</strong> __FECHA_GENERACION__</div>
       <div><strong>Período</strong> __PERIODO__</div>
       <div><strong>Alcance</strong> __ALCANCE__</div>
       <div><strong>Meta</strong> __META_TXT__% de cumplimiento</div>
@@ -794,7 +795,6 @@ __RECO_ITEMS__    </ol>
 
   <footer>
     <span>Fuente: __NOMBRE_ARCHIVO__ &middot; Elecnor &middot; universo __TOTAL_GLOBAL__ de __TOTAL_RAW__ registros</span>
-    <span>Informe generado el __FECHA_GENERACION__</span>
     <span>Diseñado por Xas</span>
   </footer>
 
