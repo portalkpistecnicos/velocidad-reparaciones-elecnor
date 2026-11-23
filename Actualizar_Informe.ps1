@@ -330,6 +330,12 @@ $template = @'
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Velocidad de Reparaciones — Elecnor</title>
+<script>
+  try {
+    var savedTheme = localStorage.getItem('p31-theme');
+    if (savedTheme === 'light' || savedTheme === 'dark') document.documentElement.setAttribute('data-theme', savedTheme);
+  } catch (e) {}
+</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
   :root{
@@ -673,11 +679,32 @@ $template = @'
     font-size:11.5px; color:var(--ink-faint); display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap;
   }
 
+  .theme-toggle{
+    display:inline-flex; align-items:center; gap:7px;
+    margin:0 0 10px; padding:6px 11px;
+    background:var(--surface); color:var(--ink);
+    border:1px solid var(--line); border-radius:3px;
+    font-family:"IBM Plex Mono", monospace; font-size:11px; font-weight:600;
+    letter-spacing:.06em; text-transform:uppercase; line-height:1;
+    cursor:pointer;
+  }
+  .theme-toggle:hover{ border-color:var(--accent); color:var(--accent); }
+  .theme-toggle:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .theme-toggle svg{ width:14px; height:14px; flex:none; }
+  .theme-toggle[data-target="dark"] .i-sun{ display:none; }
+  .theme-toggle[data-target="light"] .i-moon{ display:none; }
+
+  @media (max-width:760px){
+    .masthead{ flex-direction:column; align-items:flex-start; }
+    .masthead-meta{ text-align:left; white-space:normal; }
+  }
+
   @media print{
     body{ background:#fff; }
     .sheet{ padding:0; max-width:none; }
     section{ break-inside:avoid; }
     .tbl-wrap, .chart-card, .trend-card{ box-shadow:none; }
+    .theme-toggle{ display:none; }
   }
 </style>
 </head>
@@ -695,6 +722,11 @@ $template = @'
       </div>
     </div>
     <div class="masthead-meta">
+      <button type="button" class="theme-toggle" id="themeToggle" data-target="dark" aria-label="Cambiar entre visualización clara y oscura">
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <span id="themeToggleLabel">Modo oscuro</span>
+      </button>
       <div><strong>Actualizado</strong> __FECHA_GENERACION__</div>
       <div><strong>Período</strong> __PERIODO__</div>
       <div><strong>Alcance</strong> __ALCANCE__</div>
@@ -823,6 +855,30 @@ __RECO_ITEMS__    </ol>
       '<span class="br-stat">' + row.getAttribute('data-total') + ' reparaciones &middot; ' + row.getAttribute('data-pct') + ' cumplimiento</span>' +
       '<span class="br-stat">' + row.getAttribute('data-falta') + ' casos para alcanzar la meta</span>';
   }
+
+  (function () {
+    var root = document.documentElement;
+    var btn = document.getElementById('themeToggle');
+    var label = document.getElementById('themeToggleLabel');
+    if (!btn) return;
+    function effective() {
+      var t = root.getAttribute('data-theme');
+      if (t === 'light' || t === 'dark') return t;
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    function paint() {
+      var target = effective() === 'dark' ? 'light' : 'dark';
+      btn.setAttribute('data-target', target);
+      label.textContent = target === 'dark' ? 'Modo oscuro' : 'Modo claro';
+    }
+    btn.addEventListener('click', function () {
+      var next = effective() === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('p31-theme', next); } catch (e) {}
+      paint();
+    });
+    paint();
+  })();
 </script>
 </body>
 </html>
