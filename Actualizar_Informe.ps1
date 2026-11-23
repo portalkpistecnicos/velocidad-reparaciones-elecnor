@@ -39,7 +39,9 @@ function StatusVar([double]$pct) {
 # ---------------- 1. Ubicar CSV mas reciente con datos ----------------
 # Al iniciar un mes nuevo puede existir un archivo recien creado con solo el encabezado
 # (0 filas de datos) que es "mas reciente" por fecha pero inutil como fuente: se omite.
-$csvCandidatos = Get-ChildItem -Path $BbddFolder -Filter "p31_velocidad_reparaciones_*.csv" -File -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending
+# El nombre cambio de p31_velocidad_reparaciones_AAAA-MM.csv a p31-velocidad-reparaciones_AAAA-MM.csv
+# (guiones) desde octubre: el filtro acepta ambos y sigue excluyendo historico_p31_*.csv.
+$csvCandidatos = Get-ChildItem -Path $BbddFolder -Filter "p31*velocidad*reparaciones_*.csv" -File -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending
 $csv = $null
 foreach ($cand in $csvCandidatos) {
     $lineas = (Get-Content -Path $cand.FullName -ErrorAction SilentlyContinue | Measure-Object -Line).Lines
